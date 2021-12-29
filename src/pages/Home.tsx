@@ -9,13 +9,29 @@ export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
+    if(tasks.find(task => task.title === newTaskTitle)){
+      Alert.alert(
+        'Não é possivel cadastrar com mesmo nome',
+        '', // <- this part is optional, you can pass an empty string
+        [
+          {
+            text: "Ok",
+            style: "cancel",
+          },
+          
+        ],
+        {cancelable: true},
+      )
+      return
+    }
     const data = {
       id: new Date().getTime(),
       title: newTaskTitle,
       done: false,
     };
-
     setTasks(oldState => [...oldState, data]);
+
+    
   }
 
   function handleToggleTaskDone(id: number) {
@@ -33,7 +49,6 @@ export function Home() {
   }
 
   function handleRemoveTask(id: number) {
-    
       Alert.alert(
         'Remover item',
         'Tem certeza que você deseja remover esse item?', // <- this part is optional, you can pass an empty string
